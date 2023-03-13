@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-js-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-js
+  template:
+    metadata:
+      labels:
+        app: react-js
+    spec:
+      containers:
+        - name: react-js
+          image: olyagalyagina/frontend
+          env:
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: REACT_APP_BACKEND_API_URL
+              value: 'http://127.0.0.1:4000/'
+          ports:
+            - containerPort: 3000
